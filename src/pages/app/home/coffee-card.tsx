@@ -1,6 +1,7 @@
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 import test from "../../../assets/coffees/expresso-tradicional.png";
+import { QuantityBtn } from "../../components/quantity-btn";
 
 export function CoffeeCard() {
   return (
@@ -28,15 +29,7 @@ export function CoffeeCard() {
           </span>
         </div>
         <div className="flex gap-2 h-[38px]">
-          <div className="h-full w-[72px] bg-base-button rounded-md flex items-center justify-evenly">
-            <button className="text-purple-base">
-              <Minus size={18} />
-            </button>
-            <span className="text-base-title">1</span>
-            <button className="text-purple-base">
-              <Plus size={18} />
-            </button>
-          </div>
+          <QuantityBtn />
 
           <button className="w-[38px] h-[38px] bg-purple-dark flex items-center justify-center rounded-lg">
             <ShoppingCart size={22} className="text-base-white" />

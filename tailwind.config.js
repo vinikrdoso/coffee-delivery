@@ -24,14 +24,10 @@ export default {
       'title-lg': ['32px', '130%'],
       'title-xl': ['48px', '130%'],
     },
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1120px',
-      },
-    },
     extend: {
+      gridTemplateColumns: {
+        '1-auto': '1fr auto',
+      },
       colors: {
         yellow: {
           dark: '#C47F17',
