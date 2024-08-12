@@ -1,8 +1,9 @@
-import { Input } from "./input";
+import { Input } from "../../../components/input";
 import { useFormContext } from "react-hook-form";
 
 export function AddressForm() {
   const { register } = useFormContext();
+
   return (
     <div className="flex flex-col gap-x-3 gap-y-4">
       <div className="grid grid-cols-3">

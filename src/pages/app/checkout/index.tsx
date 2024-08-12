@@ -1,18 +1,14 @@
-import {
-  Banknote,
-  CreditCard,
-  DollarSign,
-  Landmark,
-  MapPin,
-} from "lucide-react";
-import { AddressForm } from "../../components/address-form";
+import { DollarSign, MapPin } from "lucide-react";
+import { AddressForm } from "./components/address-form";
 import * as zod from "zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext } from "react";
+import { useEffect } from "react";
 import { CoffeeContext } from "../../../contexts/CoffeeContext";
 import test from "../../../assets/coffees/expresso-tradicional.png";
 import { QuantityBtn } from "../../components/quantity-btn";
+import { PaymentMethods } from "./components/payment-method";
+import { useContextSelector } from "use-context-selector";
 
 const addressFormValidationSchema = zod.object({
   cep: zod.string().min(1, "Informe o CEP"),
@@ -27,18 +23,24 @@ const addressFormValidationSchema = zod.object({
 export type AddressFormData = zod.infer<typeof addressFormValidationSchema>;
 
 export function Checkout() {
-  const { insertAddress } = useContext(CoffeeContext);
+  const insertAddress = useContextSelector(CoffeeContext, (context) => {
+    return context.insertAddress;
+  });
+  
+  const address = useContextSelector(CoffeeContext, (context) => {
+    return context.address;
+  });
 
   const addressForm = useForm<AddressFormData>({
     resolver: zodResolver(addressFormValidationSchema),
     defaultValues: {
-      cep: "",
-      address: "",
-      addressNumber: null,
-      complement: "",
-      neighborhood: "",
-      city: "",
-      uf: "",
+      cep: address.cep ?? "",
+      address: address.address ?? "",
+      addressNumber: address.addressNumber ?? null,
+      complement: address.complement ?? "",
+      neighborhood: address.neighborhood ?? "",
+      city: address.city ?? "",
+      uf: address.uf ?? "",
     },
   });
   const { handleSubmit, reset, formState } = addressForm;
@@ -47,10 +49,12 @@ export function Checkout() {
   console.log("🚀 ~ Checkout ~ errors:", errors);
 
   function handleAddressForm(data: AddressFormData) {
-    console.log("🚀 ~ handleAddressForm ~ data:", data);
     insertAddress(data);
-    reset();
   }
+
+  useEffect(() => {
+    reset(address);
+  }, [address, reset]);
 
   return (
     <div className="mt-10 grid grid-cols-1-auto">
@@ -92,35 +96,7 @@ export function Checkout() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3">
-                  <button
-                    type="button"
-                    className="p-4 bg-base-button flex justify-start items-center rounded-md w-full"
-                  >
-                    <CreditCard className="text-purple-base mr-[15px]" />
-                    <span className="whitespace-nowrap bg-base-button text-base-text text-button-md text-center">
-                      CARTÃO DE CRÉDITO
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    className="p-4 bg-base-button flex justify-start items-center rounded-md w-full"
-                  >
-                    <Landmark className="text-purple-base mr-[15px]" />
-                    <span className="whitespace-nowrap bg-base-button text-base-text text-button-md text-center">
-                      CARTÃO DE DÉBITO
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    className="p-4 bg-base-button flex justify-start items-center rounded-md w-full"
-                  >
-                    <Banknote className="text-purple-base mr-[15px]" />
-                    <span className="whitespace-nowrap bg-base-button text-base-text text-button-md text-center">
-                      DINHEIRO
-                    </span>
-                  </button>
-                </div>
+                <PaymentMethods />
               </div>
             </div>
           </div>
@@ -140,7 +116,7 @@ export function Checkout() {
 
                     <div>
                       <p className="mb-2 text-base-subtitle text-md">
-                      Expresso Tradicional
+                        Expresso Tradicional
                       </p>
 
                       <div className="flex gap-2">
@@ -159,9 +135,7 @@ export function Checkout() {
                     <img src={test} width="64px" />
 
                     <div>
-                      <p className="mb-2 text-base-subtitle text-md">
-                        Latte
-                      </p>
+                      <p className="mb-2 text-base-subtitle text-md">Latte</p>
 
                       <div className="flex gap-2">
                         <QuantityBtn />
@@ -188,15 +162,19 @@ export function Checkout() {
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-lg font-bold text-base-subtitle">Total</span>
-                  <span className="text-lg font-bold text-base-subtitle">R$ 33,20</span>
+                  <span className="text-lg font-bold text-base-subtitle">
+                    Total
+                  </span>
+                  <span className="text-lg font-bold text-base-subtitle">
+                    R$ 33,20
+                  </span>
                 </div>
               </div>
 
               <button
                 className="p-3 bg-yellow-base rounded-md w-full
-              text-base-white text-button-lg
-              "
+              text-base-white text-button-lg"
+                type="submit"
               >
                 CONFIRMAR PEDIDO
               </button>
