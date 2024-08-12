@@ -1,7 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 
 import test from "../../../assets/coffees/expresso-tradicional.png";
-import { QuantityBtn } from "../../components/quantity-btn";
+import { QuantityBtn } from "../../../components/quantity-btn";
 
 export function CoffeeCard() {
   return (

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { CoffeeContext } from "../../../contexts/CoffeeContext";
 import test from "../../../assets/coffees/expresso-tradicional.png";
-import { QuantityBtn } from "../../components/quantity-btn";
+import { QuantityBtn } from "../../../components/quantity-btn";
 import { PaymentMethods } from "./components/payment-method";
 import { useContextSelector } from "use-context-selector";
 
