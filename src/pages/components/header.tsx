@@ -7,7 +7,7 @@ import { CartBtn } from './cart-btn'
 export function Header() {
   return (
     <div>
-      <div className="h-16 flex items-center justify-between">
+      <div className="h-16 pt-[32px] flex items-center justify-between">
         <img src={logo} alt="Logo" className="h-8" />
 
 

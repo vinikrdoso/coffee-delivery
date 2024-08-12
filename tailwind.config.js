@@ -6,7 +6,23 @@ export default {
   ],
   theme: {
     fontFamily: {
-      sans: ['Roboto','Baloo2'],
+      sans: ['Roboto'],
+      // sans: ['Baloo 2'],
+    },
+    fontSize: {
+      xs: ['12px', '130%'],
+      sm: ['14px', '130%'],
+      md: ['16px', '130%'],
+      lg: ['20px', '130%'],
+      // xl: ['24px', '130%'],
+      tag: ['10px', '130%'],
+      'button-md': ['12px', '160%'],
+      'button-lg': ['14px', '160%'],
+      'title-xs': ['18px', '130%'],
+      'title-sm': ['20px', '130%'],
+      'title-md': ['24px', '130%'],
+      'title-lg': ['32px', '130%'],
+      'title-xl': ['48px', '130%'],
     },
     container: {
       center: true,
