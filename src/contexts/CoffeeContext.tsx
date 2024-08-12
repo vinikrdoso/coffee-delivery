@@ -55,7 +55,7 @@ export function CoffeeContextProvider({
     localStorage.setItem('@coffee-delivery:address-1.0.0', stateJSON)
   }
 
-  const cartQuantity = 2
+  const cartQuantity = 1
 
   function selectPaymentMethod(paymentMethod: string) {
     setPaymentMethod(paymentMethod)

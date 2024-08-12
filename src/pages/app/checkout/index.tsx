@@ -34,13 +34,13 @@ export function Checkout() {
   const addressForm = useForm<AddressFormData>({
     resolver: zodResolver(addressFormValidationSchema),
     defaultValues: {
-      cep: address.cep ?? "",
-      address: address.address ?? "",
-      addressNumber: address.addressNumber ?? null,
-      complement: address.complement ?? "",
-      neighborhood: address.neighborhood ?? "",
-      city: address.city ?? "",
-      uf: address.uf ?? "",
+      cep: address?.cep ?? "",
+      address: address?.address ?? "",
+      addressNumber: address?.addressNumber ?? null,
+      complement: address?.complement ?? "",
+      neighborhood: address?.neighborhood ?? "",
+      city: address?.city ?? "",
+      uf: address?.uf ?? "",
     },
   });
   const { handleSubmit, reset, formState } = addressForm;
