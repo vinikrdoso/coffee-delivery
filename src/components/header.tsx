@@ -9,7 +9,6 @@ import { CoffeeContext } from "../contexts/CoffeeContext";
 
 export function Header() {
   const totalItems = useContextSelector(CoffeeContext, (ctx => ctx.totalItems))
-  console.log("🚀 ~ Header ~ totalItems:", totalItems)
 
   return (
     <div>

@@ -1,7 +1,33 @@
 import { DollarSign, MapPin, Timer } from "lucide-react";
 import successImg from "../../../assets/success.png";
+import { CoffeeContext } from "../../../contexts/CoffeeContext";
+import { useContextSelector } from "use-context-selector";
+import { useEffect } from "react";
 
 export function Success() {
+  const address = useContextSelector(CoffeeContext, (context) => {
+    return context.address;
+  });
+  const paymentMethod = useContextSelector(CoffeeContext, (context) => {
+    return context.paymentMethod;
+  });
+
+  function paymentMethodValue() {
+    switch (paymentMethod) {
+      case "credit":
+        return "Cartão de Crédito";
+      case "debit":
+        return "Cartão de Débito";
+      default:
+        return "Dinheiro";
+    }
+  }
+
+  useEffect(() => {
+    localStorage.removeItem("@coffee-delivery:payment-method-1.0.0")
+    localStorage.removeItem("@coffee-delivery:cart-1.0.0")
+  },[])
+
   return (
     <div className="pt-20 ">
       <h2 className="text-title-lg text-yellow-dark font-bold">
@@ -18,9 +44,15 @@ export function Success() {
             </div>
             <div>
               <p className="text-base-text text-md">
-                Entrega em <strong>Rua João Daniel Martinelli, 102</strong>
+                Entrega em{" "}
+                <strong>
+                  {address?.address}, {address.addressNumber}{" "}
+                  {address.complement}
+                </strong>
               </p>
-              <span>Farrapos - Porto Alegre, RS</span>
+              <span>
+                {address.neighborhood} - {address.city}, {address.uf}
+              </span>
             </div>
           </div>
 
@@ -39,10 +71,8 @@ export function Success() {
               <DollarSign size={16} className="text-base-background" />
             </div>
             <div>
-              <p className="text-base-text text-md">
-              Pagamento na entrega
-              </p>
-              <span className="font-bold text-base-text">Cartão de Crédito</span>
+              <p className="text-base-text text-md">Pagamento na entrega</p>
+              <span className="font-bold text-base-text">{paymentMethodValue()}</span>
             </div>
           </div>
         </div>

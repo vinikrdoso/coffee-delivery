@@ -27,7 +27,7 @@ interface CoffeeContextProviderProps {
 export function CoffeeContextProvider({
   children,
 }: CoffeeContextProviderProps) {
-  const [totalItems, setTotalItems] = useState(0)
+  const [totalItems, setTotalItems] = useState(0);
   const [cart, setCart] = useState(() => {
     const storedStateAsJSON = localStorage.getItem(
       "@coffee-delivery:cart-1.0.0"
@@ -64,12 +64,16 @@ export function CoffeeContextProvider({
 
   function insertAddress(data: AddressFormData) {
     setAddress(data);
-    const stateJSON = JSON.stringify(data);
 
-    localStorage.setItem("@coffee-delivery:address-1.0.0", stateJSON);
+    setStateInLocalStorage(data, "@coffee-delivery:address-1.0.0");
   }
 
   function selectPaymentMethod(paymentMethod: string) {
+    setStateInLocalStorage(
+      paymentMethod,
+      "@coffee-delivery:payment-method-1.0.0"
+    );
+
     setPaymentMethod(paymentMethod);
   }
 
@@ -133,7 +137,7 @@ export function CoffeeContextProvider({
   const removeItemFromCart = useCallback(async (id: string) => {
     setCart((state: CoffeeType[]) => {
       const existingCoffee = state.find((item) => item.id === id);
-      
+
       if (existingCoffee) {
         setTotalItems((state) => state - existingCoffee.quantity);
         const data = state.filter((item) => item.id !== id);
@@ -147,8 +151,6 @@ export function CoffeeContextProvider({
     });
   }, []);
 
-  console.log("cart", cart);
-
   return (
     <CoffeeContext.Provider
       value={{
@@ -161,7 +163,7 @@ export function CoffeeContextProvider({
         cart,
         coffees: coffeeList,
         removeItemFromCart,
-        totalItems
+        totalItems,
       }}
     >
       {children}

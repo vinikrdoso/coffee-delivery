@@ -10,6 +10,7 @@ import { PaymentMethods } from "./components/payment-method";
 import { useContextSelector } from "use-context-selector";
 import type { CoffeeType } from "../../../types";
 import { RemoveBtn } from "./components/remove-btn";
+import { useNavigate } from "react-router-dom";
 
 const addressFormValidationSchema = zod.object({
   cep: zod.string().min(1, "Informe o CEP"),
@@ -50,8 +51,12 @@ export function Checkout() {
   });
   const { handleSubmit, reset } = addressForm;
 
+  const navigate = useNavigate();
+
   function handleAddressForm(data: AddressFormData) {
     insertAddress(data);
+
+    navigate("/success");
   }
 
   const itemsTotal = cart.reduce((acc, item) => {

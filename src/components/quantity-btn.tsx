@@ -9,7 +9,6 @@ interface CoffeeCardProps {
 }
 
 export function QuantityBtn({ coffee }: CoffeeCardProps) {
-  console.log("🚀 ~ QuantityBtn ~ coffee:", coffee)
   const [quantity, setQuantity] = useState(coffee?.quantity ?? 0)
   
   const addToCart = useContextSelector(CoffeeContext, (ctx) => ctx.addToCart);
