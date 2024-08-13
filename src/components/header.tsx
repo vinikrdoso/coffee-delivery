@@ -1,14 +1,15 @@
 // import { Home, Pizza, UtensilsCrossed } from 'lucide-react'
 
 import { MapPin } from "lucide-react";
-import logo from "../../assets/logo.svg";
+import logo from "../assets/logo.svg";
 import { CartBtn } from "./cart-btn";
 import { Link } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
-import { CoffeeContext } from "../../contexts/CoffeeContext";
+import { CoffeeContext } from "../contexts/CoffeeContext";
 
 export function Header() {
-  const cartQuantity = useContextSelector(CoffeeContext, (ctx => ctx.cartQuantity))
+  const totalItems = useContextSelector(CoffeeContext, (ctx => ctx.totalItems))
+  console.log("🚀 ~ Header ~ totalItems:", totalItems)
 
   return (
     <div>
@@ -23,7 +24,7 @@ export function Header() {
             <span className="text-purple-dark">Porto Alegre, RS</span>
           </div>
           <Link to="/checkout">
-            <CartBtn quantity={cartQuantity} />
+            <CartBtn quantity={totalItems} />
           </Link>
         </div>
       </div>

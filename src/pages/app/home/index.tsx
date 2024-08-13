@@ -1,9 +1,13 @@
 import { Coffee, Package, ShoppingCart, Timer } from "lucide-react";
 
 import heroCoffee from "../../../assets/coffee-hero.png";
-import { CoffeeCard } from "./coffee-card";
+import { CoffeeCard } from "./components/coffee-card";
+import { useContextSelector } from "use-context-selector";
+import { CoffeeContext } from "../../../contexts/CoffeeContext";
 
 export function Home() {
+  const coffees = useContextSelector(CoffeeContext, ctx => ctx.coffees)
+  
   return (
     <div className="">
       <div className="flex gap-14 h-[544px] items-center">
@@ -60,11 +64,9 @@ export function Home() {
         </h2>
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-8 md:gap-y-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
+          {coffees.map((coffee) => (
+            <CoffeeCard key={coffee.name} coffee={coffee} />
+          ))}
         </div>
       </div>
     </div>

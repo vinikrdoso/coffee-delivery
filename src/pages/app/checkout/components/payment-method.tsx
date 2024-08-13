@@ -18,7 +18,7 @@ export function PaymentMethods() {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="flex flex-col sm:grid sm:grid-cols-3 gap-3">
       <button
         type="button"
         className={cn(
@@ -30,7 +30,7 @@ export function PaymentMethods() {
       >
         <CreditCard className="text-purple-base mr-[15px]" />
         <span
-          className="whitespace-nowrap text-base-text text-button-md text-center
+          className=" text-base-text text-button-md text-center
         hover:text-base-subtitle
         "
         >
@@ -48,7 +48,7 @@ export function PaymentMethods() {
       >
         <Landmark className="text-purple-base mr-[15px]" />
         <span
-          className="whitespace-nowrap text-base-text text-button-md text-center
+          className=" text-base-text text-button-md text-center
         hover:text-base-subtitle
         "
         >
@@ -66,7 +66,7 @@ export function PaymentMethods() {
       >
         <Banknote className="text-purple-base mr-[15px]" />
         <span
-          className="whitespace-nowrap text-base-text text-button-md text-center
+          className=" text-base-text text-button-md text-center
         hover:text-base-subtitle
         "
         >

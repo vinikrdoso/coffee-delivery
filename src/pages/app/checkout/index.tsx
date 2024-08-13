@@ -5,10 +5,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { CoffeeContext } from "../../../contexts/CoffeeContext";
-import test from "../../../assets/coffees/expresso-tradicional.png";
 import { QuantityBtn } from "../../../components/quantity-btn";
 import { PaymentMethods } from "./components/payment-method";
 import { useContextSelector } from "use-context-selector";
+import type { CoffeeType } from "../../../types";
+import { RemoveBtn } from "./components/remove-btn";
 
 const addressFormValidationSchema = zod.object({
   cep: zod.string().min(1, "Informe o CEP"),
@@ -26,9 +27,13 @@ export function Checkout() {
   const insertAddress = useContextSelector(CoffeeContext, (context) => {
     return context.insertAddress;
   });
-  
+
   const address = useContextSelector(CoffeeContext, (context) => {
     return context.address;
+  });
+
+  const cart = useContextSelector(CoffeeContext, (context) => {
+    return context.cart;
   });
 
   const addressForm = useForm<AddressFormData>({
@@ -43,14 +48,17 @@ export function Checkout() {
       uf: address?.uf ?? "",
     },
   });
-  const { handleSubmit, reset, formState } = addressForm;
-
-  const { errors } = formState;
-  console.log("🚀 ~ Checkout ~ errors:", errors);
+  const { handleSubmit, reset } = addressForm;
 
   function handleAddressForm(data: AddressFormData) {
     insertAddress(data);
   }
+
+  const itemsTotal = cart.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
+
+  const totalPrice = itemsTotal + 350;
 
   useEffect(() => {
     reset(address);
@@ -59,7 +67,7 @@ export function Checkout() {
   return (
     <div className="mt-10 grid grid-cols-1-auto">
       <form onSubmit={handleSubmit(handleAddressForm)}>
-        <div className="grid grid-cols-1-auto gap-8">
+        <div className="flex flex-col lg:grid lg:grid-cols-1-auto gap-8">
           <div>
             <h2 className="mb-[15px] text-title-xs text-base-subtitle">
               Complete seu pedido
@@ -110,50 +118,42 @@ export function Checkout() {
               rounded-tr-3xl rounded-bl-3xl rounded-t-md rounded-b-md"
             >
               <div className="flex flex-col gap-6">
-                <div className="flex flex-col">
-                  <div className="flex gap-5">
-                    <img src={test} width="64px" height="100px" />
+                {cart.map((coffee: CoffeeType) => (
+                  <div className="flex flex-col">
+                    <div className="flex gap-5">
+                      <img src={coffee.src} width="64px" height="100px" />
 
-                    <div>
-                      <p className="mb-2 text-base-subtitle text-md">
-                        Expresso Tradicional
-                      </p>
+                      <div>
+                        <p className="mb-2 text-base-subtitle text-md">
+                          {coffee.name}
+                        </p>
 
-                      <div className="flex gap-2">
-                        <QuantityBtn />
-                        <QuantityBtn />
+                        <div className="flex gap-2">
+                          <QuantityBtn coffee={coffee} />
+                          <RemoveBtn id={coffee.id} />
+                        </div>
                       </div>
+                      <span className="text-md font-bold text-base-text">
+                        {new Intl.NumberFormat("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        }).format(coffee.price / 100)}
+                      </span>
                     </div>
-                    <span className="text-md font-bold text-base-text">
-                      R$ 9,90
-                    </span>
+                    <div className="border-b-2 mt-6"></div>
                   </div>
-                  <div className="border-b-2 mt-6"></div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex gap-5">
-                    <img src={test} width="64px" />
-
-                    <div>
-                      <p className="mb-2 text-base-subtitle text-md">Latte</p>
-
-                      <div className="flex gap-2">
-                        <QuantityBtn />
-                        <QuantityBtn />
-                      </div>
-                    </div>
-                    <span className="text-md font-bold text-base-text">
-                      R$ 9,90
-                    </span>
-                  </div>
-                  <div className="border-b-2 mt-6"></div>
-                </div>
+                ))}
               </div>
 
               <div className="w-full flex flex-col gap-3">
                 <div className="flex justify-between">
                   <span className="text-sm text-base-text">Total de itens</span>
-                  <span className="text-md text-base-text">R$ 29,70</span>
+                  <span className="text-md text-base-text">
+                    {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(itemsTotal / 100)}
+                  </span>
                 </div>
 
                 <div className="flex justify-between">
@@ -166,7 +166,10 @@ export function Checkout() {
                     Total
                   </span>
                   <span className="text-lg font-bold text-base-subtitle">
-                    R$ 33,20
+                    {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(totalPrice / 100)}
                   </span>
                 </div>
               </div>
